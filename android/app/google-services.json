@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "261515860217",
+    "project_id": "poli-app-e6542",
+    "storage_bucket": "poli-app-e6542.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:261515860217:android:c324ab25b876b954c82a28",
+        "android_client_info": {
+          "package_name": "com.example.poli_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjJDYB9YNPpw_Vycz4kq9rH-GSk6IHG6g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -3,10 +3,12 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:share_plus/share_plus.dart';
 import 'dart:io';
+import 'dart:math';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
-import 'package:lottie/lottie.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../widgets/complete_flower_scene.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -125,73 +127,109 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  List<Widget> _buildFloatingHearts() {
+    final random = Random();
+    final List<Widget> hearts = [];
+
+    for (int i = 0; i < 15; i++) {
+      final double left =
+          random.nextDouble() * MediaQuery.of(context).size.width;
+      final double top =
+          random.nextDouble() * MediaQuery.of(context).size.height;
+
+      hearts.add(
+        Positioned(
+          left: left,
+          top: top,
+          child: Icon(
+            Icons.favorite,
+            size: 14 + random.nextDouble() * 16,
+            color: Colors.pinkAccent.withOpacity(
+              0.08 + random.nextDouble() * 0.07,
+            ),
+          ),
+        ),
+      );
+    }
+
+    return hearts;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
-          // Imagem de fundo
-          SizedBox.expand(
-            child: Image.asset('assets/stagbg.jpg', fit: BoxFit.cover),
+          // Fundo romântico com gradiente
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFFFCE4EC), // rosa muito claro
+                  Color(0xFFE1BEE7), // lilás suave
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
           ),
 
-          // Conteúdo principal por cima da imagem
+          // Corações flutuando
+          ..._buildFloatingHearts(),
+
+          // Conteúdo principal
           SafeArea(
             child: Column(
               children: [
                 const Spacer(flex: 3),
 
-                // Título estilizado
+                // Título
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
                   child: Text(
-                    'Para Você 💐',
+                    'Para Você 🎐',
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.roboto(
-                      fontSize: 48,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.white,
+                    style: GoogleFonts.dancingScript(
+                      fontSize: 50,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.purple.shade800,
                     ),
                   ),
                 ),
 
                 const SizedBox(height: 24),
 
-                // Animação Lottie
-                SizedBox(
-                  height: 280,
-                  child: Lottie.asset(
-                    'assets/animations/flower.json',
-                    fit: BoxFit.contain,
-                  ),
+                // Buquê de flores
+                const SizedBox(
+                  height: 350,
+                  width: double.infinity,
+                  child: FlowerBouquet(),
                 ),
 
                 const Spacer(flex: 2),
 
-                // Botão "Continuar"
+                // Botão
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 40.0),
                   child: SizedBox(
                     width: double.infinity,
                     height: 56,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.pink.shade400,
+                    child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Colors.purple.shade800,
+                        side: BorderSide(color: Colors.purple.shade300),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
+                        ),
+                        textStyle: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
                       onPressed: () {
                         Navigator.pushNamed(context, '/card');
                       },
-                      child: const Text(
-                        'Continuar',
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
+                      child: const Text('Continuar'),
                     ),
                   ),
                 ),
