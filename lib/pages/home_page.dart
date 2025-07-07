@@ -187,7 +187,7 @@ class _HomePageState extends State<HomePage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
                   child: Text(
-                    'Para Você 🎐',
+                    'Para Você 💜',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.dancingScript(
                       fontSize: 50,
@@ -216,10 +216,11 @@ class _HomePageState extends State<HomePage> {
                     height: 56,
                     child: OutlinedButton(
                       style: OutlinedButton.styleFrom(
+                        backgroundColor: Colors.purple.shade200,
                         foregroundColor: Colors.purple.shade800,
                         side: BorderSide(color: Colors.purple.shade300),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
+                          borderRadius: BorderRadius.circular(8),
                         ),
                         textStyle: const TextStyle(
                           fontSize: 18,

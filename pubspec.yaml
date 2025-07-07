@@ -45,6 +45,7 @@ dependencies:
   firebase_remote_config: ^5.4.5
   google_fonts: ^6.1.0
   lottie: ^3.1.0
+  flutter_staggered_grid_view: ^0.6.2
 
 
 dev_dependencies:
@@ -72,6 +73,20 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/animations/flower.json
+    - assets/euiela.jpg
+    - assets/nos1.jpg
+    - assets/nos2.jpg
+    - assets/nos3.jpg
+    - assets/nos4.jpg
+    - assets/nos5.jpg
+    - assets/nos6.jpg
+    - assets/nos7.jpg
+    - assets/nos8.jpg
+    - assets/nos9.jpg
+    - assets/nos10.jpg
+    - assets/nos11.jpg
+    - assets/nos12.jpg
+    - assets/nos13.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
