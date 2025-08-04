@@ -115,7 +115,9 @@ class _CardPageState extends State<CardPage>
           const SizedBox(height: 12),
           _buildOption(Icons.map, 'Lugares especiais', () {}),
           const SizedBox(height: 12),
-          _buildOption(Icons.favorite, 'Motivos pelos quais te amo', () {}),
+          _buildOption(Icons.favorite, 'Motivos pelos quais te amo', () {
+            Navigator.pushNamed(context, '/reasons');
+          }),
         ],
       ),
     );

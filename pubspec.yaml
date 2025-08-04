@@ -93,6 +93,13 @@ flutter:
     - assets/nos11.jpg
     - assets/nos12.jpg
     - assets/nos13.jpg
+    - assets/nos14.jpg
+    - assets/nos15.jpg
+    - assets/nos16.jpg
+    - assets/nos17.jpg
+    - assets/nos18.jpg
+    - assets/nos19.jpg
+    - assets/splash.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

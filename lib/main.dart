@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:poli_app/pages/reasons_i_love_you_page.dart';
 import 'firebase_options.dart';
 import 'services/message_storage.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
@@ -91,6 +92,9 @@ class MyApp extends StatelessWidget {
             break;
           case '/gallery':
             builder = (_) => const GalleryPage();
+            break;
+          case '/reasons':
+            builder = (_) => ReasonsILoveYouPage();
             break;
 
           default:
