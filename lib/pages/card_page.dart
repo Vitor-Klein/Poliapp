@@ -118,6 +118,10 @@ class _CardPageState extends State<CardPage>
           _buildOption(Icons.favorite, 'Motivos pelos quais te amo', () {
             Navigator.pushNamed(context, '/reasons');
           }),
+          const SizedBox(height: 12),
+          _buildOption(Icons.calendar_today, 'Nosso dia', () {
+            Navigator.pushNamed(context, '/our_day');
+          }),
         ],
       ),
     );

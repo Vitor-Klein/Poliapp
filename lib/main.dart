@@ -5,11 +5,13 @@ import 'package:poli_app/pages/reasons_i_love_you_page.dart';
 import 'firebase_options.dart';
 import 'services/message_storage.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'pages/home_page.dart';
 import 'pages/card_page.dart';
 import 'pages/splash_screen.dart';
 import 'pages/gallery_page.dart';
+import 'pages/our_day_page.dart';
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -66,6 +68,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter App',
       debugShowCheckedModeBanner: false,
+      locale: const Locale('pt', 'BR'),
+      supportedLocales: const [Locale('pt', 'BR'), Locale('en', 'US')],
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
       theme: ThemeData(
         scaffoldBackgroundColor: const Color(0xFFF5F5F5),
         appBarTheme: const AppBarTheme(
@@ -95,6 +104,9 @@ class MyApp extends StatelessWidget {
             break;
           case '/reasons':
             builder = (_) => ReasonsILoveYouPage();
+            break;
+          case '/our_day':
+            builder = (_) => OurDayPage();
             break;
 
           default:
