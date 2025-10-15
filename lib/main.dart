@@ -8,7 +8,7 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'pages/home_page.dart';
-import 'pages/card_page.dart';
+import 'pages/love_menu_page.dart.dart';
 import 'pages/splash_screen.dart';
 import 'pages/gallery_page.dart';
 import 'pages/our_day_page.dart';
@@ -97,7 +97,7 @@ class MyApp extends StatelessWidget {
             builder = (_) => const HomePage();
             break;
           case '/card':
-            builder = (_) => const CardPage();
+            builder = (_) => const LoveMenuPage();
             break;
           case '/gallery':
             builder = (_) => const GalleryPage();

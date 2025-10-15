@@ -11,11 +11,6 @@ class GalleryPage extends StatelessWidget {
     );
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Nossa Galeria'),
-        backgroundColor: Colors.pinkAccent,
-        centerTitle: true,
-      ),
       backgroundColor: const Color(0xFFFCE4EC),
       body: GridView.count(
         crossAxisCount: 2,

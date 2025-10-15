@@ -18,11 +18,6 @@ class ReasonsILoveYouPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Motivos pelos quais eu te amo"),
-        backgroundColor: Colors.pinkAccent,
-        centerTitle: true,
-      ),
       backgroundColor: const Color(0xFFFCE4EC),
       body: ListView.builder(
         padding: const EdgeInsets.all(16),

@@ -18,7 +18,6 @@ class _OurDayPageState extends State<OurDayPage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(title: const Text('Nosso Dia ❤️'), centerTitle: true),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
