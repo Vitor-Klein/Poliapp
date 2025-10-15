@@ -4,6 +4,8 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:poli_app/pages/gallery_page.dart';
 import 'package:poli_app/pages/reasons_i_love_you_page.dart';
 import 'package:poli_app/pages/our_day_page.dart';
+import 'package:poli_app/pages/card_page.dart';
+import 'package:poli_app/pages/our_places_page.dart';
 
 class LoveMenuPage extends StatefulWidget {
   const LoveMenuPage({super.key});
@@ -24,15 +26,19 @@ class _LoveMenuPageState extends State<LoveMenuPage> {
   int _index = 0;
 
   final List<Widget> _pages = <Widget>[
+    CardPage(),
     const GalleryPage(),
     ReasonsILoveYouPage(),
     const OurDayPage(),
+    const OurPlacesPage(),
   ];
 
   final List<String> _titles = const <String>[
+    'Meu cartão para você',
     'Nossa galeria',
     'Motivos pelos quais te amo',
     'Nosso dia',
+    'Lugares importantes',
   ];
 
   @override
@@ -66,9 +72,11 @@ class _LoveMenuPageState extends State<LoveMenuPage> {
         buttonBackgroundColor: kSelectedBg, // cor do item selecionado
         animationDuration: const Duration(milliseconds: 250),
         items: const [
+          Icon(Icons.style, color: Colors.white, size: 28),
           Icon(Icons.photo_library, color: kIconColor),
           Icon(Icons.favorite, color: kIconColor),
           Icon(Icons.calendar_today, color: kIconColor),
+          Icon(Icons.place, color: Colors.white),
         ],
         onTap: (i) => setState(() => _index = i),
       ),
