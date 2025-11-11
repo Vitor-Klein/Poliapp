@@ -15,6 +15,7 @@ class _CardPageState extends State<CardPage>
   late AnimationController _controller;
   late Animation<double> _animation;
   bool _isFront = true;
+  bool _animating = false; // evita toque durante o flip
 
   @override
   void initState() {
@@ -27,9 +28,18 @@ class _CardPageState extends State<CardPage>
       begin: 0,
       end: 1,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+
+    _controller.addStatusListener((status) {
+      setState(
+        () => _animating =
+            status == AnimationStatus.forward ||
+            status == AnimationStatus.reverse,
+      );
+    });
   }
 
   void _flipCard() {
+    if (_animating) return;
     if (_isFront) {
       _controller.forward();
     } else {
@@ -47,7 +57,7 @@ class _CardPageState extends State<CardPage>
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: kPageBg, // mesmo fundo do Scaffold pai
+      color: kPageBg,
       alignment: Alignment.center,
       child: GestureDetector(
         onTap: _flipCard,
@@ -67,9 +77,9 @@ class _CardPageState extends State<CardPage>
                   ? Transform(
                       alignment: Alignment.center,
                       transform: Matrix4.identity()..rotateY(pi),
-                      child: _buildBackCard(), // verso = MENSAGEM
+                      child: _buildBackCard(),
                     )
-                  : _buildFrontCard(), // frente = IMAGEM
+                  : _buildFrontCard(),
             );
           },
         ),
@@ -77,7 +87,9 @@ class _CardPageState extends State<CardPage>
     );
   }
 
-  // FRENTE: apenas a imagem (sem texto/botões)
+  // ————————————————————————————————
+  // FRENTE: imagem com loader sutil + fade-in
+  // ————————————————————————————————
   Widget _buildFrontCard() {
     return Container(
       width: 340,
@@ -94,14 +106,17 @@ class _CardPageState extends State<CardPage>
         ],
       ),
       clipBehavior: Clip.antiAlias,
-      child: Image.asset(
-        'assets/euiela.jpg', // tua imagem
-        fit: BoxFit.cover,
+      child: _AssetImageWithLoader(
+        path: 'assets/euiela.jpg',
+        // Mantém BoxFit.cover e o mesmo raio já aplicado acima
+        borderRadius: BorderRadius.zero,
       ),
     );
   }
 
-  // VERSO: somente a mensagem (o texto que antes estava junto da imagem)
+  // ————————————————————————————————
+  // VERSO: mensagem
+  // ————————————————————————————————
   Widget _buildBackCard() {
     return Container(
       width: 340,
@@ -128,6 +143,80 @@ class _CardPageState extends State<CardPage>
           style: TextStyle(fontSize: 16, color: Colors.black87, height: 1.35),
         ),
       ),
+    );
+  }
+}
+
+/// ————————————————————————————————
+/// Reutilizável: mostra spinner até a imagem carregar e depois faz fade-in
+/// ————————————————————————————————
+class _AssetImageWithLoader extends StatefulWidget {
+  final String path;
+  final BorderRadius borderRadius;
+
+  const _AssetImageWithLoader({
+    required this.path,
+    this.borderRadius = BorderRadius.zero,
+  });
+
+  @override
+  State<_AssetImageWithLoader> createState() => _AssetImageWithLoaderState();
+}
+
+class _AssetImageWithLoaderState extends State<_AssetImageWithLoader> {
+  late final ImageProvider _provider;
+  bool _loaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _provider = AssetImage(widget.path);
+
+    final stream = _provider.resolve(const ImageConfiguration());
+    ImageStreamListener? listener;
+    listener = ImageStreamListener(
+      (_, __) {
+        if (mounted) setState(() => _loaded = true);
+        stream.removeListener(listener!);
+      },
+      onError: (_, __) {
+        if (mounted)
+          setState(() => _loaded = true); // evita loader infinito em erro
+        stream.removeListener(listener!);
+      },
+    );
+    stream.addListener(listener);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        // Fundo suave enquanto carrega
+        Container(color: const Color(0xFFE1BEE7).withOpacity(0.25)),
+
+        // Loader sutil
+        if (!_loaded)
+          const Center(
+            child: SizedBox(
+              width: 28,
+              height: 28,
+              child: CircularProgressIndicator.adaptive(strokeWidth: 2.4),
+            ),
+          ),
+
+        // Imagem com fade-in
+        AnimatedOpacity(
+          opacity: _loaded ? 1 : 0,
+          duration: const Duration(milliseconds: 250),
+          curve: Curves.easeOut,
+          child: ClipRRect(
+            borderRadius: widget.borderRadius,
+            child: Image(image: _provider, fit: BoxFit.cover),
+          ),
+        ),
+      ],
     );
   }
 }

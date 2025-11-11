@@ -36,7 +36,7 @@ class _LoveMenuPageState extends State<LoveMenuPage> {
   final List<String> _titles = const <String>[
     'Meu cartão para você',
     'Nossa galeria',
-    'Motivos pelos quais te amo',
+    'Para cada momento',
     'Nosso dia',
     'Lugares importantes',
   ];
