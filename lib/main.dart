@@ -1,17 +1,24 @@
+// lib/main.dart
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:poli_app/pages/reasons_i_love_you_page.dart';
-import 'firebase_options.dart';
-import 'services/message_storage.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+import 'package:webview_flutter_platform_interface/webview_flutter_platform_interface.dart';
+import 'package:webview_flutter_android/webview_flutter_android.dart';
+
+import 'firebase_options.dart';
+import 'services/message_storage.dart';
+
 import 'pages/home_page.dart';
-import 'pages/love_menu_page.dart.dart';
+import 'pages/love_menu_page.dart';
 import 'pages/splash_screen.dart';
 import 'pages/gallery_page.dart';
 import 'pages/our_day_page.dart';
+import 'package:poli_app/pages/reasons_i_love_you_page.dart';
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -26,6 +33,11 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  // ✅ WebView (Android): define implementação da plataforma
+  if (Platform.isAndroid) {
+    WebViewPlatform.instance = AndroidWebViewPlatform();
+  }
 
   final remoteConfig = FirebaseRemoteConfig.instance;
   await remoteConfig.setConfigSettings(
@@ -78,13 +90,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: const Color(0xFFF5F5F5),
         appBarTheme: const AppBarTheme(
-          backgroundColor: const Color(0xFFb4dcf2),
+          backgroundColor: Color(0xFFb4dcf2),
           titleTextStyle: TextStyle(
             color: Colors.white,
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
-          iconTheme: const IconThemeData(color: Colors.white),
+          iconTheme: IconThemeData(color: Colors.white),
           elevation: 0,
         ),
       ),
@@ -108,7 +120,6 @@ class MyApp extends StatelessWidget {
           case '/our_day':
             builder = (_) => OurDayPage();
             break;
-
           default:
             builder = (_) => const HomePage();
         }

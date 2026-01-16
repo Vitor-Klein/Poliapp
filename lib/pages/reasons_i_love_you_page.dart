@@ -12,28 +12,28 @@ class ReasonsILoveYouPage extends StatelessWidget {
           'Ei, meu amor… em dias cinzas, lembra que eu sou seu abraço favorito. '
           'Eu te admiro tanto — sua força, seu coração enorme e o jeito lindo '
           'que você cuida do mundo. Se o dia pesar, encosta em mim. Eu te amo. 💜',
-      imageAsset: 'assets/moments/triste.jpg',
+      // imageAsset: 'assets/moments/triste.jpg',
     ),
     _MomentItem(
       title: 'Quando estiver feliz',
       text:
           'Quero celebrar cada risada sua! Me chama pra viver essa alegria ao seu lado, '
           'pra dançar na sala, pra registrar mais um momento nosso. Sua felicidade me ilumina. ✨',
-      imageAsset: 'assets/moments/feliz.jpg',
+      // imageAsset: 'assets/moments/feliz.jpg',
     ),
     _MomentItem(
       title: 'Quando estiver com saudades',
       text:
           'Fecha os olhos e sente meu cheiro te abraçando por dentro. '
           'A saudade é só o caminho até o próximo encontro — e eu estou indo na sua direção. 💌',
-      imageAsset: 'assets/moments/saudades.jpg',
+      // imageAsset: 'assets/moments/saudades.jpg',
     ),
     _MomentItem(
       title: 'Quando estiver com medo',
       text:
           'Eu fico aqui, do seu lado. Respiramos juntos, passo a passo. '
           'Você é corajosa — e, com a minha mão na sua, tudo fica mais leve. 🤝',
-      imageAsset: 'assets/moments/medo.jpg',
+      // imageAsset: 'assets/moments/medo.jpg',
     ),
     _MomentItem(
       title: 'Quando precisar de motivação',
