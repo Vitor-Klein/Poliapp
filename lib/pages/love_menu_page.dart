@@ -76,11 +76,11 @@ class _LoveMenuPageState extends State<LoveMenuPage> {
                   ),
                 ),
               ),
-              ListTile(
-                leading: const Icon(Icons.music_note),
-                title: const Text('Nossas músicas'),
-                // onTap: () => _goTo(const OurSongsPage()),
-              ),
+              // ListTile(
+              //   leading: const Icon(Icons.music_note),
+              //   title: const Text('Nossas músicas'),
+              //   // onTap: () => _goTo(const OurSongsPage()),
+              // ),
               ListTile(
                 leading: const Icon(Icons.lock),
                 title: const Text('Mensagens secretas'),
