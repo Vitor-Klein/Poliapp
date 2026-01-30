@@ -12,43 +12,95 @@ class ReasonsILoveYouPage extends StatelessWidget {
           'Ei, meu amor… em dias cinzas, lembra que eu sou seu abraço favorito. '
           'Eu te admiro tanto — sua força, seu coração enorme e o jeito lindo '
           'que você cuida do mundo. Se o dia pesar, encosta em mim. Eu te amo. 💜',
-      // imageAsset: 'assets/moments/triste.jpg',
     ),
     _MomentItem(
       title: 'Quando estiver feliz',
       text:
           'Quero celebrar cada risada sua! Me chama pra viver essa alegria ao seu lado, '
           'pra dançar na sala, pra registrar mais um momento nosso. Sua felicidade me ilumina. ✨',
-      // imageAsset: 'assets/moments/feliz.jpg',
     ),
     _MomentItem(
       title: 'Quando estiver com saudades',
       text:
           'Fecha os olhos e sente meu cheiro te abraçando por dentro. '
           'A saudade é só o caminho até o próximo encontro — e eu estou indo na sua direção. 💌',
-      // imageAsset: 'assets/moments/saudades.jpg',
     ),
     _MomentItem(
       title: 'Quando estiver com medo',
       text:
           'Eu fico aqui, do seu lado. Respiramos juntos, passo a passo. '
           'Você é corajosa — e, com a minha mão na sua, tudo fica mais leve. 🤝',
-      // imageAsset: 'assets/moments/medo.jpg',
     ),
     _MomentItem(
       title: 'Quando precisar de motivação',
       text:
           'Olha o tanto que você já conquistou! Você é capaz, talentosa e persistente. '
           'Vai em frente — eu acredito em você, hoje e sempre. 🚀',
-      // sem imagem? Deixe null ou remova a linha
-      // imageAsset: 'assets/moments/motivacao.jpg',
     ),
     _MomentItem(
       title: 'Quando quiser lembrar do nosso amor',
       text:
           'Nosso amor é casa, é riso bobo, é cuidado e futuro. '
           'Obrigada por existir na minha vida. Te amo além do que cabe em palavras. 🏡💘',
-      // imageAsset: 'assets/moments/amor.jpg',
+    ),
+    // Novas mensagens
+    _MomentItem(
+      title: 'Quando estiver nervosa ou estressada',
+      text:
+          'Lembre-se de respirar, meu amor. Eu tô aqui pra te acalmar, '
+          'te dar força e te lembrar que você é capaz de superar tudo. Comigo, tudo fica mais tranquilo. 💙',
+    ),
+    _MomentItem(
+      title: 'Quando precisar de um sorriso',
+      text:
+          'Sorrir é a melhor forma de espalhar luz, e você tem um brilho único que ilumina tudo ao seu redor. '
+          'Seu sorriso me faz bem, mesmo nos dias mais difíceis. 😊',
+    ),
+    _MomentItem(
+      title: 'Quando quiser relembrar um momento especial',
+      text:
+          'Lembra daquele dia em que tudo parecia perfeito? Eu guardo esse momento em mim com tanto carinho. '
+          'Foi um dos nossos melhores capítulos! 📖✨',
+    ),
+    _MomentItem(
+      title: 'Quando estiver se sentindo insegura',
+      text:
+          'Eu te amo do jeito que você é, com todas as suas qualidades e imperfeições. '
+          'Você é incrível, e estarei sempre ao seu lado te lembrando disso. 💪❤️',
+    ),
+    _MomentItem(
+      title: 'Quando sentir que o mundo está te cobrando demais',
+      text:
+          'Você não precisa ser tudo de uma vez, meu amor. '
+          'Faça no seu tempo e saiba que estarei sempre te apoiando. Não tem pressa. 🌸',
+    ),
+    _MomentItem(
+      title: 'Quando estiver se sentindo solitária',
+      text:
+          'Nosso amor está comigo a cada segundo, a cada passo. '
+          'Mesmo de longe, eu estou sempre com você, te amando e te cuidando. 🌙💌',
+    ),
+    _MomentItem(
+      title: 'Quando tiver dúvida sobre o futuro',
+      text:
+          'O futuro pode ser incerto, mas uma coisa é certa: eu quero estar ao seu lado em cada momento, não importa o que venha. Juntos, somos invencíveis. 🚀',
+    ),
+    _MomentItem(
+      title: 'Quando precisar de carinho',
+      text:
+          'Sinta-se envolvida no meu abraço, mesmo que eu não esteja perto. '
+          'Estou sempre te amando e te cuidando de qualquer forma. 💖',
+    ),
+    _MomentItem(
+      title: 'Quando precisar de uma palavra de apoio',
+      text:
+          'Você tem uma força imensa dentro de si. E mesmo quando não souber o que fazer, saiba que não está sozinha. Eu estou com você em cada passo. 🌷',
+    ),
+    _MomentItem(
+      title: 'Quando precisar relaxar',
+      text:
+          'Relaxa, amor. Nosso amor é o lugar mais tranquilo que você pode estar. '
+          'Juntos, podemos enfrentar qualquer coisa com serenidade e amor. 🌙💖',
     ),
   ];
   // ============================================
