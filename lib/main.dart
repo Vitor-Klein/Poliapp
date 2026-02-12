@@ -12,6 +12,7 @@ import 'package:webview_flutter_android/webview_flutter_android.dart';
 
 import 'firebase_options.dart';
 import 'services/message_storage.dart';
+import 'services/widget_background.dart';
 
 import 'pages/home_page.dart';
 import 'pages/love_menu_page.dart';
@@ -68,6 +69,8 @@ void main() async {
     print('Opened app from notification: ${message.notification?.title}');
     await saveMessageLocally(message);
   });
+
+  await registerWidgetBackgroundSync();
 
   runApp(const MyApp());
 }

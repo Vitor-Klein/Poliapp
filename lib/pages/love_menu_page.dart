@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:home_widget/home_widget.dart';
 
 import 'package:poli_app/pages/gallery_page.dart';
 import 'package:poli_app/pages/reasons_i_love_you_page.dart';
 import 'package:poli_app/pages/our_day_page.dart';
 import 'package:poli_app/pages/card_page.dart';
 import 'package:poli_app/pages/our_places_page.dart';
-
-// ✅ ajuste os caminhos conforme seus arquivos
-// import 'package:poli_app/pages/our_songs_page.dart';
 import 'package:poli_app/pages/messages_page.dart';
 
 class LoveMenuPage extends StatefulWidget {
@@ -24,9 +23,16 @@ class _LoveMenuPageState extends State<LoveMenuPage> {
   static const Color kPageBg = Color(0xFFFCE4EC);
   static const Color kIconColor = Colors.white;
 
+  // ✅ tem que bater com o nome da sua classe Kotlin (Provider)
+  static const String kAndroidWidgetProvider = 'PoliHomeWidgetProvider';
+
+  // ✅ key do Remote Config / Widget data
+  static const String kWidgetTextKey = 'home_widget_text';
+
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   int _index = 0;
+  bool _updatingWidget = false;
 
   final List<Widget> _pages = <Widget>[
     CardPage(),
@@ -49,6 +55,44 @@ class _LoveMenuPageState extends State<LoveMenuPage> {
   void _goTo(Widget page) {
     Navigator.pop(context); // fecha o drawer
     Navigator.push(context, MaterialPageRoute(builder: (_) => page));
+  }
+
+  Future<void> _updateHomeWidget() async {
+    if (_updatingWidget) return;
+
+    setState(() => _updatingWidget = true);
+
+    try {
+      final rc = FirebaseRemoteConfig.instance;
+
+      await rc.setConfigSettings(
+        RemoteConfigSettings(
+          fetchTimeout: const Duration(seconds: 10),
+          minimumFetchInterval: Duration.zero, // pra testar fácil
+        ),
+      );
+
+      await rc.fetchAndActivate();
+
+      final text = rc.getString(kWidgetTextKey).trim();
+      final safeText = text.isEmpty ? 'Abra o app ❤️' : text;
+
+      await HomeWidget.saveWidgetData<String>(kWidgetTextKey, safeText);
+
+      await HomeWidget.updateWidget(name: kAndroidWidgetProvider);
+
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Widget atualizado! ✅')));
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Falha ao atualizar widget: $e')));
+    } finally {
+      if (mounted) setState(() => _updatingWidget = false);
+    }
   }
 
   @override
@@ -76,16 +120,50 @@ class _LoveMenuPageState extends State<LoveMenuPage> {
                   ),
                 ),
               ),
-              // ListTile(
-              //   leading: const Icon(Icons.music_note),
-              //   title: const Text('Nossas músicas'),
-              //   // onTap: () => _goTo(const OurSongsPage()),
-              // ),
+
               ListTile(
                 leading: const Icon(Icons.lock),
                 title: const Text('Mensagens secretas'),
                 onTap: () => _goTo(const MessagesPage()),
               ),
+
+              // ✅ BOTÃO para atualizar o widget (abaixo de mensagens)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 6, 16, 12),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 46,
+                  child: ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: kBarColor,
+                      foregroundColor: Colors.white,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    onPressed: _updatingWidget ? null : _updateHomeWidget,
+                    icon: _updatingWidget
+                        ? const SizedBox(
+                            width: 18,
+                            height: 18,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.white,
+                              ),
+                            ),
+                          )
+                        : const Icon(Icons.refresh_rounded),
+                    label: Text(
+                      _updatingWidget ? 'Atualizando...' : 'Atualizar Widget',
+                      style: const TextStyle(fontWeight: FontWeight.w700),
+                    ),
+                  ),
+                ),
+              ),
+
+              const Divider(height: 1),
             ],
           ),
         ),
