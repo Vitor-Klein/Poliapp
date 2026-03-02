@@ -1,11 +1,12 @@
 // lib/main.dart
 import 'dart:io';
-
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import 'package:webview_flutter_platform_interface/webview_flutter_platform_interface.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
@@ -23,55 +24,24 @@ import 'package:poli_app/pages/reasons_i_love_you_page.dart';
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
-  print("Handling a background message: ${message.messageId}");
-  print('Message data: ${message.data}');
-
-  await saveMessageLocally(message); // 💾 Salvar mesmo com app fechado
+  await saveMessageLocally(message);
 }
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  // ✅ WebView (Android): define implementação da plataforma
-  if (Platform.isAndroid) {
+  // Background handler pode ficar aqui
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  // WebView Android (evita crash no web)
+  if (!kIsWeb && Platform.isAndroid) {
     WebViewPlatform.instance = AndroidWebViewPlatform();
   }
 
-  final remoteConfig = FirebaseRemoteConfig.instance;
-  await remoteConfig.setConfigSettings(
-    RemoteConfigSettings(
-      fetchTimeout: const Duration(seconds: 10),
-      minimumFetchInterval: const Duration(milliseconds: 10),
-    ),
-  );
-  await remoteConfig.fetchAndActivate();
-
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
-  await FirebaseMessaging.instance.requestPermission(
-    alert: true,
-    badge: true,
-    sound: true,
-  );
-
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
-  await messaging.subscribeToTopic('all');
-
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-    print('Received in foreground: ${message.notification?.title}');
-    await saveMessageLocally(message);
-  });
-
-  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
-    print('Opened app from notification: ${message.notification?.title}');
-    await saveMessageLocally(message);
-  });
-
-  await registerWidgetBackgroundSync();
-
+  // ✅ NÃO faça requestPermission / remoteConfig / subscribe aqui antes do runApp
   runApp(const MyApp());
 }
 
@@ -82,7 +52,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter App',
-      debugShowCheckedModeBanner: false,
       locale: const Locale('pt', 'BR'),
       supportedLocales: const [Locale('pt', 'BR'), Locale('en', 'US')],
       localizationsDelegates: const [
@@ -90,23 +59,11 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      theme: ThemeData(
-        scaffoldBackgroundColor: const Color(0xFFF5F5F5),
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xFFb4dcf2),
-          titleTextStyle: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-          iconTheme: IconThemeData(color: Colors.white),
-          elevation: 0,
-        ),
-      ),
+
+      debugShowCheckedModeBanner: false,
       home: const SplashScreen(),
       onGenerateRoute: (settings) {
         WidgetBuilder builder;
-
         switch (settings.name) {
           case '/home':
             builder = (_) => const HomePage();
@@ -130,9 +87,8 @@ class MyApp extends StatelessWidget {
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) =>
               builder(context),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return FadeTransition(opacity: animation, child: child);
-          },
+          transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+              FadeTransition(opacity: animation, child: child),
           transitionDuration: const Duration(milliseconds: 600),
           settings: settings,
         );

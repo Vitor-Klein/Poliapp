@@ -1,29 +1,28 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Base roxa -->
+    <!-- Base: degrade roxo escuro -> roxo menos escuro -->
     <item>
         <shape>
             <corners android:radius="18dp" />
             <gradient
                 android:angle="135"
-                android:startColor="#6D28D9"
-                android:centerColor="#4C1D95"
-                android:endColor="#2E1065" />
+                android:startColor="#2E1065"
+                android:endColor="#5B21B6" />
         </shape>
     </item>
 
-    <!-- Brilho suave no topo -->
-    <item android:top="0dp" android:left="0dp" android:right="0dp" android:bottom="0dp">
+    <!-- brilho suave no topo -->
+    <item>
         <shape>
             <corners android:radius="18dp" />
             <gradient
                 android:angle="270"
-                android:startColor="#33FFFFFF"
+                android:startColor="#26FFFFFF"
                 android:endColor="#00FFFFFF" />
         </shape>
     </item>
 
-    <!-- Borda elegante -->
+    <!-- borda sutil -->
     <item>
         <shape>
             <corners android:radius="18dp" />

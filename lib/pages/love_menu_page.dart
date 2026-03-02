@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // ✅ novo
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:home_widget/home_widget.dart';
@@ -35,7 +36,7 @@ class _LoveMenuPageState extends State<LoveMenuPage> {
   bool _updatingWidget = false;
 
   final List<Widget> _pages = <Widget>[
-    CardPage(),
+    const CardPage(),
     const GalleryPage(),
     ReasonsILoveYouPage(),
     const OurDayPage(),
@@ -49,6 +50,28 @@ class _LoveMenuPageState extends State<LoveMenuPage> {
     'Nosso dia',
     'Lugares importantes',
   ];
+
+  @override
+  void initState() {
+    super.initState();
+
+    // ✅ Esconde barra/botões de navegação (fica fullscreen)
+    // immersiveSticky: some e volta só com gesto (swipe), depois some de novo
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+
+    // Se você quiser MANTER a status bar de cima e esconder só a de baixo, use isto no lugar:
+    // SystemChrome.setEnabledSystemUIMode(
+    //   SystemUiMode.manual,
+    //   overlays: [SystemUiOverlay.top],
+    // );
+  }
+
+  @override
+  void dispose() {
+    // ✅ Restaura UI do sistema quando sair da página
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    super.dispose();
+  }
 
   void _openEndDrawer() => _scaffoldKey.currentState?.openEndDrawer();
 
@@ -78,7 +101,6 @@ class _LoveMenuPageState extends State<LoveMenuPage> {
       final safeText = text.isEmpty ? 'Abra o app ❤️' : text;
 
       await HomeWidget.saveWidgetData<String>(kWidgetTextKey, safeText);
-
       await HomeWidget.updateWidget(name: kAndroidWidgetProvider);
 
       if (!mounted) return;
@@ -127,7 +149,7 @@ class _LoveMenuPageState extends State<LoveMenuPage> {
                 onTap: () => _goTo(const MessagesPage()),
               ),
 
-              // ✅ BOTÃO para atualizar o widget (abaixo de mensagens)
+              // ✅ BOTÃO para atualizar o widget
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 6, 16, 12),
                 child: SizedBox(
@@ -196,6 +218,7 @@ class _LoveMenuPageState extends State<LoveMenuPage> {
         ),
       ),
 
+      // ✅ CurvedNavigationBar sem aumentar/padding extra
       bottomNavigationBar: CurvedNavigationBar(
         index: _index,
         height: 75,

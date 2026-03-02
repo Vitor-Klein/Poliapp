@@ -17,91 +17,90 @@ class _OurDayPageState extends State<OurDayPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              // --- texto mais bonito antes do calendário ---
-              Text(
-                'Todo dia 7 é especial,\n'
-                '💕',
-                textAlign: TextAlign.center,
-                style: theme.textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.pink.shade400,
-                ),
-              ),
-              const SizedBox(height: 24),
 
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.white,
-                    boxShadow: const [
-                      BoxShadow(
-                        blurRadius: 12,
-                        spreadRadius: 1,
-                        offset: Offset(0, 4),
-                        color: Colors.black12,
-                      ),
-                    ],
-                  ),
-                  child: TableCalendar(
-                    locale: 'pt_BR',
-                    firstDay: DateTime.utc(2000, 1, 1),
-                    lastDay: DateTime.utc(2100, 12, 31),
-                    focusedDay: _focusedDay,
-                    startingDayOfWeek: StartingDayOfWeek.monday,
-                    headerStyle: const HeaderStyle(
-                      formatButtonVisible: false,
-                      titleCentered: true,
-                    ),
-                    calendarFormat: CalendarFormat.month,
-                    selectedDayPredicate: (day) => isSameDay(day, _selectedDay),
-                    onDaySelected: (selectedDay, focusedDay) {
-                      setState(() {
-                        _selectedDay = selectedDay;
-                        _focusedDay = focusedDay;
-                      });
-                      if (_isNossoDia(selectedDay)) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('É o nosso dia! ❤️')),
-                        );
-                      }
-                    },
-                    onPageChanged: (focusedDay) {
-                      setState(() => _focusedDay = focusedDay);
-                    },
-                    calendarBuilders: CalendarBuilders(
-                      defaultBuilder: (context, day, _) =>
-                          _buildDayCell(context, day, false),
-                      todayBuilder: (context, day, _) =>
-                          _buildDayCell(context, day, true),
-                      selectedBuilder: (context, day, _) =>
-                          _buildDayCell(context, day, true, isSelected: true),
-                      outsideBuilder: (context, day, _) =>
-                          _buildDayCell(context, day, false, isOutside: true),
-                    ),
-                  ),
-                ),
-              ),
+    // ✅ sem Scaffold aqui (porque já existe um Scaffold no LoveMenuPage)
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        children: [
+          Text(
+            'Todo dia 7 é especial,\n💕',
+            textAlign: TextAlign.center,
+            style: theme.textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: Colors.pink.shade400,
+            ),
+          ),
+          const SizedBox(height: 24),
 
-              const SizedBox(height: 12),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Icon(Icons.favorite, color: Colors.red, size: 18),
-                  SizedBox(width: 6),
-                  Text('Dia 7 é o nosso dia ❤️'),
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.white,
+                boxShadow: const [
+                  BoxShadow(
+                    blurRadius: 12,
+                    spreadRadius: 1,
+                    offset: Offset(0, 4),
+                    color: Colors.black12,
+                  ),
                 ],
               ),
+              child: TableCalendar(
+                locale: 'pt_BR',
+                firstDay: DateTime.utc(2000, 1, 1),
+                lastDay: DateTime.utc(2100, 12, 31),
+                focusedDay: _focusedDay,
+                startingDayOfWeek: StartingDayOfWeek.monday,
+                headerStyle: const HeaderStyle(
+                  formatButtonVisible: false,
+                  titleCentered: true,
+                ),
+                calendarFormat: CalendarFormat.month,
+
+                selectedDayPredicate: (day) => isSameDay(day, _selectedDay),
+                onDaySelected: (selectedDay, focusedDay) {
+                  setState(() {
+                    _selectedDay = selectedDay;
+                    _focusedDay = focusedDay;
+                  });
+
+                  if (_isNossoDia(selectedDay)) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('É o nosso dia! ❤️')),
+                    );
+                  }
+                },
+                onPageChanged: (focusedDay) {
+                  setState(() => _focusedDay = focusedDay);
+                },
+
+                calendarBuilders: CalendarBuilders(
+                  defaultBuilder: (context, day, _) =>
+                      _buildDayCell(context, day, false),
+                  todayBuilder: (context, day, _) =>
+                      _buildDayCell(context, day, true),
+                  selectedBuilder: (context, day, _) =>
+                      _buildDayCell(context, day, true, isSelected: true),
+                  outsideBuilder: (context, day, _) =>
+                      _buildDayCell(context, day, false, isOutside: true),
+                ),
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 12),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              Icon(Icons.favorite, color: Colors.red, size: 18),
+              SizedBox(width: 6),
+              Text('Dia 7 é o nosso dia ❤️'),
             ],
           ),
-        ),
+        ],
       ),
     );
   }
