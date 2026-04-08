@@ -7,7 +7,7 @@ class GalleryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<String> imagePaths = List.generate(
-      34,
+      40,
       (index) => 'assets/nos${index + 1}.jpg',
     );
 

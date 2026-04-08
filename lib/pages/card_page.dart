@@ -107,7 +107,7 @@ class _CardPageState extends State<CardPage>
       ),
       clipBehavior: Clip.antiAlias,
       child: _AssetImageWithLoader(
-        path: 'assets/euiela.jpg',
+        path: 'assets/nos35.jpg',
         // Mantém BoxFit.cover e o mesmo raio já aplicado acima
         borderRadius: BorderRadius.zero,
       ),
